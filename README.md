@@ -1,5 +1,5 @@
 # Proyecto Final - Data Science
-## Análisis y Recomendación de Negocios del Sector de Turismo y Ocio en Estados Unidos
+##  Transformando el Turismo y Ocio a través del Análisis de Datos
 
 ### Integrantes
 - Ana Milena Alfaro
@@ -49,8 +49,6 @@ El análisis se centrará en la información de los estados de Florida, Californ
 5. Tasa de Interacción con Recomendaciones:
    - Métrica: Porcentaje de usuarios que interactúan con las recomendaciones proporcionadas por el sistema (indicador de relevancia y utilidad de la sugerencia).
 
-Parte 2:
-
 ### MVP: Sistema de Análisis y Recomendación de Negocios del Sector de Turismo y Ocio en Estados Unidos
 
 El MVP (Producto Mínimo Viable) del proyecto se centrará en los siguientes aspectos:
@@ -71,7 +69,7 @@ Para el desarrollo, hemos adoptado la metodología SCRUM como metodología ágil
 
 ### Stack Tecnológico
 
-![Stack Tecnologico propuesto](images\stack_tecnologico.jpeg)
+![Stack Tecnologico propuesto](images/flow_preliminar.png)
 
 ### Workflow
 
@@ -86,7 +84,7 @@ Considerando la popularidad que posee Azure, y el acceso a documentación actual
 
 ### Arquitectura
 
-![Arquitectura propuesta](images\flow_preliminar.png)
+![Arquitectura propuesta](images/flow_preliminar.png)
 
 Cabe destacar que la implementación específica puede variar según los recursos disponibles y las preferencias del equipo, pero las tecnologías mencionadas proporcionan una base sólida para construir el MVP y demostrar la viabilidad del proyecto de Data Science.
 
