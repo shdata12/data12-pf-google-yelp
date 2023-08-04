@@ -69,7 +69,7 @@ Para el desarrollo, hemos adoptado la metodología SCRUM como metodología ágil
 
 ### Stack Tecnológico
 
-![Stack Tecnologico propuesto](images/flow_preliminar.png)
+![Stack Tecnologico propuesto](images/stack_tecnologico.jpeg)
 
 ### Workflow
 
