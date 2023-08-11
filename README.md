@@ -88,9 +88,51 @@ Considerando la popularidad que posee Azure, y el acceso a documentación actual
 
 Cabe destacar que la implementación específica puede variar según los recursos disponibles y las preferencias del equipo, pero las tecnologías mencionadas proporcionan una base sólida para construir el MVP y demostrar la viabilidad del proyecto de Data Science.
 
-### Entregables
+## Diagrama de Entidad Relación (DER)
+
+Un esquema Starflake es una combinación de un esquema en estrella y un esquema en copo de nieve. Los esquemas Starflake son esquemas en copo de nieve en los que solo algunas de las tablas de dimensiones han sido desnormalizadas. Los esquemas Starflake buscan aprovechar los beneficios tanto de los esquemas en estrella como de los esquemas en copo de nieve. Las jerarquías de los esquemas en estrella se desnormalizan, mientras que las jerarquías de los esquemas en copo de nieve se normalizan. Los esquemas Starflake se normalizan para eliminar redundancias en las dimensiones. Para normalizar el esquema, las jerarquías dimensionales compartidas se colocan en "outriggers" (extensiones).
+
+![Diagrama ER](images/er.png)
+
+El esquema starflake es una variante que busca encontrar un equilibrio entre la simplicidad de las consultas del esquema estrella y la normalización del esquema copo de nieve. En el esquema starflake, algunas tablas de dimensiones pueden tener atributos normalizados (como en el esquema copo de nieve) mientras que otras mantienen una estructura de esquema estrella, lo que ayuda a mejorar el rendimiento de las consultas. En resumen, el esquema starflake es un enfoque intermedio que busca combinar lo mejor de los dos mundos, es decir, la eficiencia de consultas del esquema estrella y la normalización del esquema copo de nieve. El enfoque específico de diseño puede variar según las necesidades y las características de los datos en un proyecto particular.
+
+## Servicio de Azure Synapse Analytics
+
+Azure ofrece un servicio llamado Azure Synapse Analytics, que nos permite crear un Data Warehouse escalable y de alto rendimiento. Este servicio integra almacenamiento y análisis, lo que lo convierte en una opción poderosa para empresas que buscan obtener información valiosa a partir de sus datos.
+
+### Carga Inicial
+
+Después de crear el Data Warehouse, el siguiente paso crucial es realizar la carga inicial de datos. Esto implica mover grandes volúmenes de información desde diferentes fuentes, como bases de datos transaccionales, archivos CSV o servicios en la nube, hacia el Data Warehouse. Durante esta etapa, es esencial diseñar cuidadosamente el proceso de extracción, transformación y carga (ETL) para garantizar la calidad y la integridad de los datos.
+
+La carga inicial puede ser un proceso intensivo, ya que estamos transfiriendo una gran cantidad de datos en una sola vez. Sin embargo, establecer una base sólida es fundamental para asegurar que los análisis posteriores sean precisos y significativos.
+
+### Carga Incremental
+
+Una vez que hemos realizado la carga inicial, no detenemos ahí el proceso. Los datos cambian constantemente y es crucial mantener nuestro Data Warehouse actualizado para obtener insights en tiempo real. Aquí es donde entra en juego la carga incremental.
+
+La carga incremental implica identificar y transferir solo los datos nuevos o modificados desde las fuentes de origen al Data Warehouse. Esto reduce el tiempo y los recursos necesarios para mantener los datos actualizados. En Azure, podemos aprovechar herramientas como Azure Data Factory para automatizar y programar esta carga incremental de manera eficiente.
+
+### Beneficios de Azure para la Carga Incremental
+
+Azure ofrece ventajas clave en el proceso de carga incremental. Primero, puede escalar automáticamente según las necesidades de sus datos, lo que garantiza un rendimiento óptimo incluso durante los períodos de mayor demanda. Además, las capacidades de seguridad y cumplimiento de Azure aseguran que sus datos estén protegidos en todo momento.
+
+## Conclusión
+
+En resumen, la creación de un Data Warehouse en Azure es un paso fundamental para desbloquear el potencial de sus datos. La carga inicial y la carga incremental son etapas cruciales para asegurar que los datos sean precisos, actualizados y listos para el análisis. Azure ofrece un conjunto de herramientas poderosas para llevar a cabo estas tareas de manera eficiente y confiable. Al invertir en la creación y el mantenimiento de su Data Warehouse en Azure, su organización estará en una posición sólida para tomar decisiones informadas y estratégicas basadas en datos precisos y oportunos.
+
+
+### Entregables Sprint 1
+
 
 - Diagrama de Gantt: Acceso desde el siguiente [Enlace](https://proyectofinalhenry.atlassian.net/jira/software/projects/PF/boards/1/timeline?shared=&atlOrigin=eyJpIjoiZjY1MWVjZDUyOGRiNDM0OThhYjgzNWMwMmZiYTFjOWEiLCJwIjoiaiJ9)
 - Repositorio en GitHub: Acceso desde el siguiente [Enlace](https://github.com/shdata12/data12-pf-google-yelp)
 - Drive de Google: Acceso desde el siguiente [Enlace](https://drive.google.com/drive/folders/1GDtpD1LJjT0tHUuSRr8Fp52LUsNWyMK0?usp=drive_link)
+
+
+### Entregables Sprint 2
+
+
+- Diccionario de datos: Acceso desde el siguiente [Enlace](src/dict_dw.md)
+- Diagrama de Entidad Relación: Acceso desde el siguiente [Enlace](images/er.png)
+- Diagrama de Arquitectura: Acceso desde el siguiente [Enlace](images/flow_preliminar.png)
 
