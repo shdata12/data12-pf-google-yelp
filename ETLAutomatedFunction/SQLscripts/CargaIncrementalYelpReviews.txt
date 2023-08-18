@@ -1,0 +1,34 @@
+-- Crear una tabla temporal para cargar los datos del archivo CSV
+-- trae el id_business como paramentro por el momento lo dejo fijo para la prueba
+CREATE TABLE TempReviews (
+    id_usuario INT,
+    star INT,
+    time_created DATE,
+    text TEXT
+);
+
+-- Cargar los datos del archivo CSV en la tabla temporal
+INSERT INTO TempReviews (id_usuario, star, time_created, text)
+SELECT id_usuario, star, text
+FROM EXTERNAL_CSV('/ruta/al/archivo.csv');
+
+-- Insertar registros en la tabla "reviews" utilizando los datos de la tabla temporal y otras tablas de referencia
+INSERT INTO reviews (id_usuario, id_shop, star, id_fecha, text, likes, origin)
+SELECT
+    tr.id_usuario,
+    s.id_shop,
+    tr.star,
+    c.id_fecha,
+    tr.text,
+    NULL AS likes,
+    1 AS origin
+FROM TempReviews tr
+JOIN shops s ON  s.id_business = 'sqSqqLy0sN8n2IZrAbzidQ'
+JOIN calendario c ON tr.time_created = c.date;
+
+-- Eliminar la tabla temporal
+DROP TABLE TempReviews;
+
+
+
+

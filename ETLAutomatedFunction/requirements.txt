@@ -4,3 +4,6 @@
 
 azure-functions
 azure.storage.blob
+azure-storage-blob
+pandas
+json_normalize
