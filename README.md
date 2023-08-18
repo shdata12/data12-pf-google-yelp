@@ -116,6 +116,86 @@ La carga incremental implica identificar y transferir solo los datos nuevos o mo
 
 Azure ofrece ventajas clave en el proceso de carga incremental. Primero, puede escalar automáticamente según las necesidades de sus datos, lo que garantiza un rendimiento óptimo incluso durante los períodos de mayor demanda. Además, las capacidades de seguridad y cumplimiento de Azure aseguran que sus datos estén protegidos en todo momento.
 
+
+## Machine Learning
+
+Nuestro sistema de recomendación combina tanto el sentimiento expresado en las reseñas como las calificaciones asignadas por los usuarios. Este enfoque se descompone en dos fases fundamentales: primero, estimamos los sentimientos de las reseñas (positivos o negativos) para crear calificaciones virtuales. Luego, aplicamos un modelo de regresión lineal a estas calificaciones virtuales.
+
+## Análisis de Sentimientos
+
+Optamos por desarrollar y evaluar un sistema de recomendación basado en el procesamiento del lenguaje natural, específicamente diseñado para el contexto de restaurantes.
+
+Es relevante destacar que la mayoría de las reseñas otorgadas por los usuarios están en la categoría de 5 o 4 estrellas. Esto sugiere que la mayoría de las experiencias compartidas son positivas y satisfactorias. Además, observamos que los usuarios tienden a escribir reseñas especialmente cuando han tenido una experiencia positiva en un restaurante.
+
+![Count Of Reviews](images/countorbs.jpg)
+
+Durante nuestro análisis, evaluamos dos modelos de Análisis de Sentimientos: VADER y RoBERTa. Los resultados mostraron una relación sólida entre el tipo de sentimiento detectado en las reseñas y las calificaciones asignadas en forma de estrellas. Por ejemplo, notamos que la mayor cantidad de reseñas con sentimiento positivo están asociadas a una calificación de 5 estrellas, mientras que las reseñas con sentimiento negativo suelen tener calificaciones más bajas.
+
+![stars](images/stars.jpg)
+
+![dispersion](images/dispersion.jpg)
+
+## Modelo VADER
+
+VADER es un modelo que analiza cada palabra individualmente en una oración y asigna un puntaje de sentimiento a cada palabra. Este enfoque no considera el contexto más amplio de la reseña ni captura elementos sutiles como sarcasmo o ironía. Al evaluar las palabras de manera independiente, VADER no logra capturar las relaciones complejas entre las palabras y puede dar lugar a interpretaciones inexactas del sentimiento general de la reseña.
+
+## Modelo RoBERTa
+
+Por otro lado, optamos por utilizar el modelo RoBERTa, desarrollado por la compañía Hugging Face. RoBERTa es un modelo basado en transformers, que ha sido entrenado en una amplia variedad de datos textuales. A diferencia de VADER, RoBERTa no solo considera las palabras individuales, sino que también captura el contexto y las relaciones entre las palabras en una oración. Esto le permite comprender mejor el significado completo de la reseña y capturar elementos de lenguaje más complejos como el sarcasmo y la ironía.
+
+Optamos por implementar RoBERTa como nuestro modelo de análisis de sentimientos, ya que este enfoque es capaz de capturar tanto las palabras como el contexto relacionado con otras palabras. A continuación, se presenta un ejemplo comparativo de ambos modelos:
+
+## Ejemplo de Reseña:
+
+“Gran bar Happy Hour 4-7 todos los días. Vinos y cervezas $3, pizza $5, aperitivos $4.50. Cenas y almuerzos para llevar son muy razonables y rápidos. El personal es amable.”
+
+Valores del Modelo VADER:
+{'neg': 0.0, 'neu': 0.711, 'pos': 0.289, 'compound': 0.9001}
+
+Valores del Modelo RoBERTa:
+{'roberta_neg': 0.0009888249, 'roberta_neu': 0.01591682, 'roberta_pos': 0.9830943}
+
+## Regresión Lineal
+
+Aplicamos una combinación lineal a las calificaciones predichas por cada matriz para obtener una calificación final. Esta calificación se utiliza para ordenar los resultados y generar las recomendaciones. Dado que un establecimiento puede tener varias reseñas o calificaciones, utilizamos la mediana como valor representativo. Esta elección se basa en su resistencia a valores atípicos y su capacidad para mantener la estabilidad en presencia de datos extremos.
+
+![lineal](images/lineal.jpg)
+
+
+El diagrama a continuación ilustra el flujo de datos en nuestro sistema de recomendación. Utiliza los requerimientos del usuario, como el tipo de local gastronómico y la ubicación, para filtrar y recomendar los establecimientos relevantes.
+
+![Categorias](images/Categorias.jpg)
+
+![Flujo](images/Flujo.jpg)
+
+
+## Uso del Sistema de Recomendación
+
+Nuestro sistema de recomendación combina el análisis de sentimientos y la calificación de las reseñas para ofrecer recomendaciones personalizadas a los usuarios. A continuación, se describe el proceso paso a paso:
+
+    Entrada del Usuario: El sistema toma como entrada dos parámetros principales:
+        Categoría: El usuario selecciona el tipo de local gastronómico de su interés a partir de un menú predeterminado que agrupa distintas categorías disponibles.
+        Ubicación: Se utiliza un archivo .csv con información de hoteles de la cadena Hilton® en diferentes estados. Se eligieron 6 hoteles en cada estado como puntos de referencia para filtrar la zona de interés y realizar la búsqueda.
+
+    Filtrado de Locales y Reseñas: Utilizando la categoría y la ubicación proporcionadas, el sistema filtra los locales que cumplen con esas condiciones. También se filtran las reseñas asociadas a estos locales.
+
+    Análisis de Sentimientos: Se aplica el modelo de procesamiento de lenguaje natural RoBERTa para analizar el sentimiento de las reseñas. RoBERTa contextualiza las palabras y comprende el significado y el contexto de las reseñas, lo que permite una evaluación precisa del sentimiento expresado.
+
+    Cálculo del Puntaje Ponderado: El sistema utiliza los valores de sentimiento (roberta_pos) obtenidos de RoBERTa, junto con las calificaciones (stars) asociadas a las reseñas, para calcular un puntaje ponderado para cada tienda. Este puntaje refleja tanto la calificación numérica como el sentimiento general de las reseñas.
+
+    Modelo de Regresión Lineal: Se crea una matriz de características y un vector objetivo utilizando los puntajes ponderados calculados. Luego, se entrena un modelo de regresión lineal utilizando estos datos.
+
+    Generación de Recomendaciones: Una vez entrenado el modelo, se utilizan los valores calculados y ponderados para realizar recomendaciones personalizadas. Los resultados se ordenan por el valor del puntaje, y las recomendaciones se presentan a los usuarios.
+
+![Recomendacion](images/Recomendacion.jpg)
+
+## Resultados y Conclusiones
+
+Nuestro análisis y experimentos demuestran que los modelos basados en procesamiento de lenguaje natural, como RoBERTa, mejoran significativamente la calidad de las recomendaciones en comparación con los enfoques que solo consideran las calificaciones numéricas. La capacidad de comprender el contexto y las relaciones entre las palabras permite una interpretación más precisa de las reseñas, lo que se traduce en recomendaciones más acertadas.
+
+Sin embargo, es importante destacar que la cantidad y calidad de los datos son factores cruciales para el éxito del sistema. Incluso con la inclusión de información textual, la falta de reseñas o la presencia de datos dispersos pueden limitar las mejoras en las recomendaciones. A pesar de esto, nuestro sistema ofrece una solución robusta y eficaz para brindar a los usuarios recomendaciones personalizadas basadas en sus preferencias y ubicación.
+
+
 ## Conclusión
 
 En resumen, la creación de un Data Warehouse en Azure es un paso fundamental para desbloquear el potencial de sus datos. La carga inicial y la carga incremental son etapas cruciales para asegurar que los datos sean precisos, actualizados y listos para el análisis. Azure ofrece un conjunto de herramientas poderosas para llevar a cabo estas tareas de manera eficiente y confiable. Al invertir en la creación y el mantenimiento de su Data Warehouse en Azure, su organización estará en una posición sólida para tomar decisiones informadas y estratégicas basadas en datos precisos y oportunos.
@@ -135,4 +215,5 @@ En resumen, la creación de un Data Warehouse en Azure es un paso fundamental pa
 - Diccionario de datos: Acceso desde el siguiente [Enlace](src/dict_dw.md)
 - Diagrama de Entidad Relación: Acceso desde el siguiente [Enlace](images/er.png)
 - Diagrama de Arquitectura: Acceso desde el siguiente [Enlace](images/flow_preliminar.png)
+
 
